@@ -1,0 +1,1 @@
+It's recommended to open the T3G_Journal_2022.htm using Word and or equivalent program.
