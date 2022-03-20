@@ -2,13 +2,14 @@
 	\setlength\parindent{0pt}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\usepackage{hyperref}
 \usepackage{multicol}
 \usepackage[yyyymmdd]{datetime}
 	\renewcommand{\dateseparator}{--}
 \usepackage{fancyhdr}
 	\pagestyle{fancy}
-	\fancyhead[l]{SU:DA2004 -- HT21}
-	\fancyhead[c]{Projektrapport}
+	\fancyhead[l]{Stockholm}
+	\fancyhead[c]{The General Gist Generator}
 	\fancyhead[r]{\today}
 	\fancyfoot[l]{}
 	\fancyfoot[c]{\thepage}
@@ -49,124 +50,50 @@
 %
 %\end{lstlisting}
 
-\title{SU:DA2004\_INDU\_Projektrapport}
-\author{Stockholms Universitet}
+\title{The General Gist Generator}
+\author{Victor Ekekrantz & Simon Jorstedt}
 \date{\today}
 
 \begin{document}
 \thispagestyle{empty}
 \begin{Huge}
-SU:DA2004\_INDU\_Projektrapport
+The General Gist Generator
 \end{Huge}
 \begin{huge}
-\\\\Stockholms Universitet
+\\\\Victor Ekekrantz \& Simon Jorstedt
 \end{huge}
 \begin{LARGE}
-\\\\\today
+\\\\Report last compiled: \today
 \end{LARGE}
 
-\begin{multicols}{2}
-[
 \section*{Forewords}
-This report is written in academic Swenglish and comments the attached codeproject. Quick info about the choosen INDU project below.
-\\\textbf{Choosen project:} Tre i rad (Uppgift 1 \& 2)
-\\\textbf{Python Modules used:} unittest, mock, random, datetime, matplotlib
+Is it possible to find a method of programmatically generate the gist of a comment section or the replies of a survey? This project will explore that line of questioning and aim to develop a method, capable of summarizing human written texts in a meaningful manner.
+GitHub Repository: \url{https://github.com/VictorieeMan/T3G_TheGeneralGistGenerator.git}
+\newpage
 \tableofcontents
-]
 \section{File structure}
-Within the working folder, you will find the following file structure (to the right). \textbf{To run the program}, run: \emph{main.py}, this will execute the ''Tre i rad'' simulator program and start prompting for user input via the terminal. Then follow instructions given in the terminal to proceed.
-
-The \textbf{main.py} is the program, while the other modules are just definitions of functions that won't run unless given input from main.
-\resizebox{.5\textwidth}{!}{
-\begin{forest}
-  for tree={
-    font=\ttfamily,
-    grow'=0,
-    child anchor=west,
-    parent anchor=south,
-    anchor=west,
-    calign=first,
-    edge path={
-      \noexpand\path [draw, \forestoption{edge}]
-      (!u.south west) +(8pt,0) |- node[fill,inner sep=1pt] {} (.child anchor)\forestoption{edge label};
-    },
-    before typesetting nodes={
-      if n=1
-        {insert before={[,phantom]}}
-        {}
-    },
-    fit=band,
-    before computing xy={l=16pt},
-  }
-[SU\_DA2004\_HT2021\_INDU\_Projekt
-  [Code
-    [Results
-    	[Program output:$\mapsto$ PDF diagrams]
-    ]
-    [game\_sim.py]
-    [main.py]
-    [statistics\_export.py]
-    [tests.py]
-    [user\_prompts.py]
-  ]
-  [Kursfiler
-    [regler.pdf]
-    [tre\_i\_rad.pdf]
-  ]
-  [Rapporten\_DA2004\_HT2021.pdf]
-]
-\end{forest}
-}
-\end{multicols}
-
-\section{Program flow and Modules}
-As seen in the file structure this program is seperated into five modules, each with a descriptive name. Here's a short review of each.
-
-\subsection*{main.py}
-This is from where the program is run for normal execution. It triggers the user prompts and iterates feeding this input to the \emph{game\_sim.py} module for simulations. Then it consolidates this data for export, handing it to the \emph{exportResults()} function in the \emph{statistics\_export.py} module.
-
-\subsection*{user\_prompts.py $\Rightarrow$ up.*}
-All user prompts are contained within this module. Each prompt function preforms error handling, that iterates until the user gives acceptable input. Only predefined inputs are allowed, minimizing the risk of having forgot of some fringe example.
-
-\subsection*{game\_sim.py $\Rightarrow$ gs.*}
-The most complex module of them all, this is where the \emph{tic-tac-toe} games are simulated. While \emph{main.py} is the main module of the program, the \emph{game\_tictactoe()} is the main function of the \emph{game\_sim.py} module. To best understand this module use that function as your starting point.
-
-\subsection*{statistics\_export.py $\Rightarrow$ se.*}
-When all is said and done through the simulations the data of each run is saved within the \emph{score\_board} in \emph{main.py}. This data is sent to \emph{exportingResults()} where processing is done to create a matplotlib diagram and save it to the \emph{Results/} folder. The module also contains the \emph{output\_summary()} that will print a statistics summary to the terminal before the program ends.
-
-\subsection*{tests.py}
-Running this will preform unittests of the whole program. Each function within the whole project will be tested except two, who are ''out-commented'' because they have no following dependencies and only prints to terminal making them difficult to unittest anyway.
-
-\section{Code design, Algorithms \& Data structures}
-Comments on some of the design decisions within the program. 
-\subsection*{Error handling}
-Prevention is the best cure. This program attempts to catch errors before they become troublesome. Loading of modules are included in ''try--except'' blocks. And each of the functions in the \emph{user\_prompts.py} module, contain error handling and enforced integer input.
-
-\subsection*{Algorithms \& Data structures}
-The data structures in this program are kept simple. Only in use are the most fundamenal: \emph{integers}, \emph{floating points}, \emph{lists} and \emph{strings}. The most complex combination of these occur in the \emph{board} variable within the \emph{game\_tictactoe()} function from \emph{game\_sim.py}. The \emph{board} variable is constructed by the \emph{make\_\-move()} function, seen below, and it's a list of integer-lists. Where each integer-lists stores a player ID together with coordinates for a move on the board, this represents the placement of a piece.
-
-\begin{lstlisting}[language=Python, caption=game\_sim.py]
-	def make_move(board:list,next_move:list,player:int):
-    """Claiming the next_move,
-    by attaching player ID before adding to board."""
-    [x, y, z] = next_move
-    board.append([player, x, y, z])
-    
-    return board
-\end{lstlisting}
-
-The last entry to the \emph{board} is also always the last move. This is used when checking for the result of a new move. Using parametrisation, the function look for pieces along the lines where they ought to be and adds score for each finding. A score of three is a win! See the code for the full function.
-
-\begin{lstlisting}[language=Python, caption=from gs.check\_result()]
-# Parameterizes a line in the direction of adjacent
-# Then checks for three in a row along that line
-    for i in adjacent:
-        [dx,dy,dz] = [i[1]-x,i[2]-y,i[3]-z]
-        if dx != 0 or dy != 0 or dz != 0:
-            score = 0
-            for j in [0,1,2]: #If from endpoint
-                if [player,x+dx*j,y+dy*j,z+dz*j] in board:
-                    score += 1
-\end{lstlisting}
+Readme for repository.
+%
+%\section{Program flow and Modules}
+%
+%\section{Code design, Algorithms \& Data structures}
+%Comments on some of the design decisions within the program. 
+%\subsection*{Error handling}
+%Prevention is the best cure. This program attempts to catch errors before they become troublesome. Loading of modules are included in ''try--except'' blocks. And each of the functions in the \emph{user\_prompts.py} module, contain error handling and enforced integer input.
+%
+%\subsection*{Algorithms \& Data structures}
+%The data structures in this program are kept simple. Only in use are the most fundamenal: \emph{integers}, \emph{floating points}, \emph{lists} and \emph{strings}. The most complex combination of these occur in the \emph{board} variable within the \emph{game\_tictactoe()} function from \emph{game\_sim.py}. The \emph{board} variable is constructed by the \emph{make\_\-move()} function, seen below, and it's a list of integer-lists. Where each integer-lists stores a player ID together with coordinates for a move on the board, this represents the placement of a piece.
+%
+%\begin{lstlisting}[language=Python, caption=from gs.check\_result()]
+%# Parameterizes a line in the direction of adjacent
+%# Then checks for three in a row along that line
+%    for i in adjacent:
+%        [dx,dy,dz] = [i[1]-x,i[2]-y,i[3]-z]
+%        if dx != 0 or dy != 0 or dz != 0:
+%            score = 0
+%            for j in [0,1,2]: #If from endpoint
+%                if [player,x+dx*j,y+dy*j,z+dz*j] in board:
+%                    score += 1
+%\end{lstlisting}
 
 \end{document}
