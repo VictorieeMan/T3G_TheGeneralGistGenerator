@@ -69,5 +69,5 @@ def output_aid(description, thing):
 
     
 
-make_pmatrix("Får får får? Nej får får lamm")
+#make_pmatrix("Får får får? Nej får får lamm")
 
