@@ -20,10 +20,6 @@ def make_pmatrix(raw_text): #Ca 40 rows of code
     
     output_aid("Dataframe Template", dframe)
     
-
-    ### HEEEEEJ!!!!
-
-    ###NU CRASHAR DIN DATOR!
     
     "COUNT OCCURENCES OF WORDS FOLLOWING OTHER WORDS"
     last_word = split_text[0]
